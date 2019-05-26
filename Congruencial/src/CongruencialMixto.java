@@ -1,4 +1,7 @@
 
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class CongruencialMixto {
@@ -27,7 +30,7 @@ public class CongruencialMixto {
         int x0 = 0;
         int m = 0;
         int k = 0;
-        
+         ArrayList<Double> numeros = new ArrayList<>();
         //calculo del multiplicador "a"
         while (k <= 0) {
             k = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el valor de 'k' para el calculo del multiplicador", "MULTIPLICADOR \na=(2^k) + 1", JOptionPane.INFORMATION_MESSAGE));
@@ -63,20 +66,28 @@ public class CongruencialMixto {
         JOptionPane.showMessageDialog(null, "El valor de la constante aditiva 'c' es " + c);
         System.out.println("c-->" + c);
 
-
+DecimalFormat df = new DecimalFormat("0.00000");
         int n_pseudo = 0;
         int cociente = 0;
-        System.out.println("n" + " | " + "xn" + " | " + a + "Xn+" + c + "/" + m + " | " + "Xn+1" + " | " + "Numeros Uniformes" + "\n");
+        double n_uniformes = 0.00;
+        
+        System.out.println("n" + "\t" + "xn" + "\t" + a + "Xn+" + c + "/" + m + "\t" + "Xn+1" + "\t" + "Numeros Uniformes" + "\n");
         int aux = x0;
-        for (int i = 1; i <= m; i++) {
+        for (int i = 1; i <= m; i++) {            
             n_pseudo = ((a * x0) + c) % m; //(aXn+c) mod m
+            n_uniformes = (double) n_pseudo / m; //para calcular el valor del numero uniforme (0,1)
             cociente = ((a * x0) + c) / m; //operacion -> ((a * x0)+c) {divisor}
-            System.out.println(i + " | " + x0 + "  |  " + cociente + "+" + n_pseudo + "/" + m + " |   " + n_pseudo + "  |    " + n_pseudo + "/" + m);
+            System.out.println(i + "\t" + x0 + "\t" + cociente + "+" + n_pseudo + "/" + m + " "+" \t" + n_pseudo + "\t" + n_pseudo + "/" + m +" ==> "+df.format(n_uniformes));
+            
+            numeros.add(n_uniformes);//arreglo para guardadr los numeros para hacer las pruebas
+            
             x0 = n_pseudo;
             if (i > 1 && aux == n_pseudo) {
                 break;
             }
         }
+        Metodos_Pruebas.prueba_Promedios(numeros); //llamo al metodo para la prueba de promedios
+        Metodos_Pruebas.prueba_Frecuencias(numeros);
     }
 
 }
